@@ -1,2 +1,4 @@
 # Counterfeit-coin-detection
-implementing a statistical edge-based feature selection method based on a research paper ("Statistical edge-based feature selection for counterfeit coin detection") with the use of a microscope to collected data/images of real and fake coins.
+implementing a statistical edge-based feature selection method based on a research paper **("Statistical edge-based feature selection for counterfeit coin detection")** with the use of a microscope to collected data/images of real and fake coins.
+
+This paper presents a solution for detecting counterfeit coins, by providing a method based on edge differences. The method compares the edge width, edge thickness, number of horizontal and vertical edges, the total number of edges, and number of pixels. This approach has been experimentally established by other related works [9, 16, 21] that the edges of counterfeit coin stamp are the prime indicator to distinguish between genuine and counterfeit coins, since even the high-quality forged coins have wider, taller, detached or missing strokes. The references provided in the paper supports this method as an effective way to detect counterfeit coins
