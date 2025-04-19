@@ -1,26 +1,72 @@
-# Counterfeit-coin-detection
--implementing a statistical edge-based feature selection method based on a research paper **("Statistical edge-based feature selection for counterfeit coin detection")** with the use of a microscope to collected data/images of real and fake coins.
+# Counterfeit Gold Coin Detection
 
+This repository documents the implementation of the paper **"Statistical edge-based feature selection for counterfeit coin detection"** by Hussein Sheikh Wassouf. The project focuses on detecting counterfeit coins through advanced image processing and statistical edge feature analysis.
 
--This paper presents a solution for detecting counterfeit coins, by providing a method based on edge differences. The method compares the edge width, edge thickness, number of horizontal and vertical edges, the total number of edges, and number of pixels. This approach has been experimentally established by other related works [9, 16, 21] that the edges of counterfeit coin stamp are the prime indicator to distinguish between genuine and counterfeit coins, since even the high-quality forged coins have wider, taller, detached or missing strokes. The references provided in the paper supports this method as an effective way to detect counterfeit coins.
+## 📌 Project Overview
+Counterfeit coins are a growing concern, with a reported 12.03% increase in detected counterfeit coins between 2017-2018. Traditional detection methods (weight, sound, chemical tests) are no longer reliable due to sophisticated forgery techniques. This method leverages **edge-based features** (width, thickness, orientation) to distinguish genuine coins from counterfeit ones. The original paper achieved **99.4% accuracy** on the Danish Coin Dataset, while this prototype uses a custom-collected dataset.
 
-## Steps to apply this implementation:
+## 🎯 Problem Statement
+- Counterfeit coins exhibit subtle edge defects (wider, taller, detached, or missing strokes) invisible to traditional methods.
+- Manual inspection is time-consuming and requires expertise.
+- **Goal**: Automate counterfeit detection using statistical edge analysis and machine learning.
 
-1-Coin Segmentation / Cropping: Isolate the coin within the images by removing any surrounding background, so that only the coin is visible.
+## 🛠 Methodology
+The pipeline involves 8 key steps:
+1. **Gold Segmentation/Cropping**  
+   - Use **HSV thresholding** to isolate the coin from the background.
+   - Output: Cropped circular coin image (e.g., 905x905 pixels).
 
-2-Choosing Reference Coins: Both counterfeit and genuine coins can appear in variant qualities, from mint state to highly degraded coins, These variations may arise from coin wear or contamination caused by daily use, The variation appears clearly on the edge strokes, which protrude from the background of the coin. Therefore, considering multiple reference coins having different wear levels to compare to every test coin can highly render those variations in between interclass coins again this set of reference coins should represent all real coins. All the reference coins should be in the exact same position/rotation
+2. **Choosing Reference Coins**  
+   - Select multiple reference coins (genuine and worn) to account for natural variations in wear and contamination.
 
-3-Rotating the input coin to match the exact rotation of the reference coins
+3. **Rotation Alignment**  
+   - Rotate test coins to match reference coin orientation using **Euclidean distance minimization** across 360 degrees.
 
-4-feature extraction a lot of details about this in the paper.
+4. **Defect Map Extraction**  
+   - Apply **Sobel edge detection** on reference and rotated test images.
+   - Generate a defect map via **pixel-wise difference** to highlight discrepancies.
 
-5-PCA to reduce the extracted features dimensions.
+5. **ROI Extraction**  
+   - Crop regions of interest (ROI) from defect maps to reduce computational load.
 
-6-Trained a classfayer on the extracted data from the two classes (real , fake).
+6. **Feature Extraction**  
+   - Extract edge metrics:  
+     - Horizontal/vertical edge counts (`Nεh`, `Nεv`).  
+     - Edge lengths, positions, directions (horizontal, ±45° diagonals).  
+     - Similarity metrics (SSIM, MSE, SNR).  
+   - Two feature dataframes:  
+     - **Dataframe A**: 52,584 rows × 14 columns.  
+     - **Dataframe B**: Reduced to 26,292 rows × 15 columns.  
 
+7. **Dimensionality Reduction**  
+   - Apply **PCA** with Min-Max scaling, retaining 97% variance with 6 components.
 
-This is the microscope i used:
+8. **Classification**  
+   - Train/test classifiers on the reduced feature set (specific classifiers not listed in the presentation).
 
+## 📂 Dataset
+- **Original Paper Dataset**: Danish Coin Dataset (4 subsets, 2,264 images each).  
+  - High-resolution grayscale images (3500x3500 pixels) scanned via 2D scanner.  
+- **Prototype Dataset**:  
+  - **Custom-collected dataset** (due to unavailability of the Danish Dataset).  
+  - Captured using a digital microscope.  
+  - Split into:  
+    - **Reference** (1 image),  
+    - **Real** (2 images),  
+    - **Fake** (4 images).  
 
-![Capture](https://user-images.githubusercontent.com/57813196/212535949-37dacb9e-ed4b-42ba-acbd-72fe664fa641.PNG)
+## 📊 Results
+- The original paper achieved **99.4% accuracy** on the Danish Coin Dataset.  
+- Prototype testing on the custom dataset showed clear distinction between real and fake defect maps:  
+  - **Real coins**: Organized, consistent edges.  
+  - **Counterfeit coins**: Chaotic, irregular edges.  
 
+## 🏁 Conclusion
+This method effectively identifies counterfeit coins by analyzing edge defects, outperforming traditional techniques. While the original paper validated results on the Danish Dataset, this prototype demonstrates feasibility using a smaller custom dataset. Future work includes expanding the custom dataset and testing additional classifiers for robustness.
+
+## 🔗 References
+- Paper: *"Statistical edge-based feature selection for counterfeit coin detection"* by Hussein Sheikh Wassouf.  
+
+---
+
+*Note: Code implementation is not yet available. This repository serves as a documentation hub for the methodology. Contributions or inquiries are welcome!*
