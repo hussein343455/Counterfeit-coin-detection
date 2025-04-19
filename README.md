@@ -1,6 +1,6 @@
 # Counterfeit Gold Coin Detection
 
-This repository documents the implementation of the paper **"Statistical edge-based feature selection for counterfeit coin detection"** by Hussein Sheikh Wassouf. The project focuses on detecting counterfeit coins through advanced image processing and statistical edge feature analysis.
+This repository documents the implementation of the paper **"Statistical edge-based feature selection for counterfeit coin detection"**. The project focuses on detecting counterfeit coins through advanced image processing and statistical edge feature analysis.
 
 ## 📌 Project Overview
 Counterfeit coins are a growing concern, with a reported 12.03% increase in detected counterfeit coins between 2017-2018. Traditional detection methods (weight, sound, chemical tests) are no longer reliable due to sophisticated forgery techniques. This method leverages **edge-based features** (width, thickness, orientation) to distinguish genuine coins from counterfeit ones. The original paper achieved **99.4% accuracy** on the Danish Coin Dataset, while this prototype uses a custom-collected dataset.
