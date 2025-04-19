@@ -65,7 +65,7 @@ The pipeline involves 8 key steps:
 This method effectively identifies counterfeit coins by analyzing edge defects, outperforming traditional techniques. While the original paper validated results on the Danish Dataset, this prototype demonstrates feasibility using a smaller custom dataset. Future work includes expanding the custom dataset and testing additional classifiers for robustness.
 
 ## 🔗 References
-- Paper: *"Statistical edge-based feature selection for counterfeit coin detection"* by Hussein Sheikh Wassouf.  
+- Paper: *"Statistical edge-based feature selection for counterfeit coin detection"*.  
 
 ---
 
