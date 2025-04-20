@@ -5,6 +5,10 @@ This repository documents the implementation of the paper **"Statistical edge-ba
 ## 📌 Project Overview
 Counterfeit coins are a growing concern, with a reported 12.03% increase in detected counterfeit coins between 2017-2018. Traditional detection methods (weight, sound, chemical tests) are no longer reliable due to sophisticated forgery techniques. This method leverages **edge-based features** (width, thickness, orientation) to distinguish genuine coins from counterfeit ones. The original paper achieved **99.4% accuracy** on the Danish Coin Dataset, while this prototype uses a custom-collected dataset.
 
+**Key Insight**:  
+*"It has been experimentally established by other related works [9, 16, 21] that the edges of counterfeit coin stamp are the prime indicator to distinguish between genuine and counterfeit coins, since even the high-quality forged coins have wider, taller, detached or missing strokes."*  
+*(This line is directly quoted from the paper [1].)*
+
 ## 🎯 Problem Statement
 - Counterfeit coins exhibit subtle edge defects (wider, taller, detached, or missing strokes) invisible to traditional methods.
 - Manual inspection is time-consuming and requires expertise.
@@ -13,11 +17,12 @@ Counterfeit coins are a growing concern, with a reported 12.03% increase in dete
 ## 🛠 Methodology
 The pipeline involves 8 key steps:
 1. **Gold Segmentation/Cropping**  
-   - Use **HSV thresholding** to isolate the coin from the background.
+   - Use **HSV thresholding** along side other opencv methods to isolate the coin from the background.
    - Output: Cropped circular coin image (e.g., 905x905 pixels).
+   ![Alt text](images/Step1.1.png)
 
 2. **Choosing Reference Coins**  
-   - Select multiple reference coins (genuine and worn) to account for natural variations in wear and contamination.
+   - Select multiple reference coins (genuine and worn) to account for natural variations in wear and contamination, in our custom database one coin was set as the referance
 
 3. **Rotation Alignment**  
    - Rotate test coins to match reference coin orientation using **Euclidean distance minimization** across 360 degrees.
