@@ -1,6 +1,9 @@
-# Counterfeit Gold Coin Detection
+# Counterfeit Turkish Gold Coin Detection (Altın) 
 
-This repository documents the implementation of the paper **"Statistical edge-based feature selection for counterfeit coin detection"**. The project focuses on detecting counterfeit coins through advanced image processing and statistical edge feature analysis.
+This repository documents the implementation of the paper "Statistical edge-based feature selection for counterfeit coin detection", adapted specifically for authenticating Turkish gold coins (locally called "altın"). The project focuses on detecting counterfeit çeyrek altın (¼-size coins) through advanced image processing and statistical edge feature analysis.
+
+![Alt text](Images/1.png)
+Turkish "çeyrek altın" coins - identical design across sizes but varying diameters (14mm-22mm). This project focuses on the 18mm çeyrek altın.
 
 ## 📌 Project Overview
 Counterfeit coins are a growing concern, with a reported 12.03% increase in detected counterfeit coins between 2017-2018. Traditional detection methods (weight, sound, chemical tests) are no longer reliable due to sophisticated forgery techniques. This method leverages **edge-based features** (width, thickness, orientation) to distinguish genuine coins from counterfeit ones. The original paper achieved **99.4% accuracy** on the Danish Coin Dataset, while this prototype uses a custom-collected dataset.
@@ -19,17 +22,22 @@ The pipeline involves 8 key steps:
 1. **Gold Segmentation/Cropping**  
    - Use **HSV thresholding** along side other opencv methods to isolate the coin from the background.
    - Output: Cropped circular coin image (e.g., 905x905 pixels).
-   ![Alt text](Images/Step1.1.png)
+   
+   ![Alt text](Images/Step1.png)
 
 2. **Choosing Reference Coins**  
    - Select multiple reference coins (genuine and worn) to account for natural variations in wear and contamination, in our custom database one coin was set as the referance
 
 3. **Rotation Alignment**  
-   - Rotate test coins to match reference coin orientation using **Euclidean distance minimization** across 360 degrees.
-
+   - Adapted the paper’s method: Rotated the test coin incrementally (1° steps across 360°) and calculated Euclidean distance between the reference and test coin’s edge maps at each angle.
+   - The rotation angle with the minimum Euclidean distance (identified from the 360-value vector) was applied to align the test coin with the reference.
+   - Result: Perfect edge overlap between reference and aligned test coin (critical for accurate defect detection).
+     
 4. **Defect Map Extraction**  
    - Apply **Sobel edge detection** on reference and rotated test images.
    - Generate a defect map via **pixel-wise difference** to highlight discrepancies.
+   
+   ![Alt text](Images/Step4.png)
 
 5. **ROI Extraction**  
    - Crop regions of interest (ROI) from defect maps to reduce computational load.
