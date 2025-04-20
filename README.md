@@ -32,7 +32,7 @@ The pipeline involves 8 key steps:
 3. **Rotation Alignment**  
    - Adapted the paper’s method: Rotated the test coin incrementally (1° steps across 360°) and calculated Euclidean distance between the reference and test coin’s edge maps at each angle.
    - The rotation angle with the minimum Euclidean distance (identified from the 360-value vector) was applied to align the test coin with the reference.
-   - Result: Perfect edge overlap between reference and aligned test coin (critical for accurate defect detection).
+   - **Result**: Perfect edge overlap between reference and aligned test coin (critical for accurate defect detection).
    
    ![Alt text](Images/Step2.png)
      
@@ -46,7 +46,7 @@ The pipeline involves 8 key steps:
    - Method: Split the defect map into concentric donut-shaped regions (2D torus) and a central circle.
    - Parameters: Radius r = 50 for a 500x500 image → (500/2)/50 = 5 regions (4 torus + 1 center circle).
    - Final ROIs: Vertically split each region into halves → 10 total ROIs.
-   - Impact: Skipping ROI extraction dropped accuracy from 99.7% to ~70% in tests on the custom çeyrek altın dataset.
+   - **Impact**: Skipping ROI extraction dropped accuracy from 99.7% to ~70% in tests on the custom çeyrek altın dataset.
 
    ![Alt text](Images/Step5.png)
    
@@ -61,13 +61,14 @@ The pipeline involves 8 key steps:
    **Data Pipeline**:  
       - **Dataframe A**: 52,584 rows × 14 columns.  
       - **Dataframe B**: 26,292 rows × 15 columns (Same data as A, optimized order to reduce computational load).
+        
+   ![Alt text](Images/Step6.png)
+
    **Example Workflow if 6 reference coin are being used**:  
       1. Generate 6 defect maps (1 per reference coin).  
       2. Extract features → 6 dataframes → average into 1.  
       3. Final features retain only persistent edge patterns (suppress transient defects).
-
-   ![Alt text](Images/Step6.png)
-
+  
 8. **Dimensionality Reduction**  
    - Applied **Min-Max scaling** to normalize features.  
    - Reduced 15 features → **6 PCA components**, preserving 97% variance.  
@@ -91,7 +92,7 @@ The pipeline involves 8 key steps:
    
   ![Alt text](Images/Data.png)
 
-  A digital microscope was used to capture images of the dataset:
+   - A digital microscope was used to capture images of the dataset:
   
   ![Alt text](Images/bonus.png)
   
@@ -100,7 +101,7 @@ The pipeline involves 8 key steps:
 - Prototype testing on the custom dataset showed clear distinction between real and fake defect maps:  
   - **Real coins**: Organized, consistent edges.  
   - **Counterfeit coins**: Chaotic, irregular edges.
-  - Table below shows the accuracy scores for each classifier:
+- Table below shows the accuracy scores for each classifier:
   
   ![Alt text](Images/R.png)
 
@@ -108,7 +109,8 @@ The pipeline involves 8 key steps:
 This method effectively identifies counterfeit Turkish gold coins by analyzing edge defects, using çeyrek altın as the test case. It outperforms traditional techniques and, while the original paper validated results on the Danish Dataset, this prototype demonstrates feasibility on a smaller custom dataset. The consistent design across coin sizes allows easy adaptation to tam or yarım coins by adjusting ROI scaling.
 
 ## 🔗 References
-Primary Paper (Implemented Method):
-[1] [DOI: 10.1007/s11042-020-09447-8] "Statistical edge-based feature selection for counterfeit coin detection"
+- Primary Paper (Implemented Method):
+
+   [1] [DOI: 10.1007/s11042-020-09447-8] "Statistical edge-based feature selection for counterfeit coin detection"
 
 ---
