@@ -19,7 +19,7 @@ The pipeline involves 8 key steps:
 1. **Gold Segmentation/Cropping**  
    - Use **HSV thresholding** along side other opencv methods to isolate the coin from the background.
    - Output: Cropped circular coin image (e.g., 905x905 pixels).
-   ![Alt text](images/Step1.1.png)
+   ![Alt text](Images/Step1.1.png)
 
 2. **Choosing Reference Coins**  
    - Select multiple reference coins (genuine and worn) to account for natural variations in wear and contamination, in our custom database one coin was set as the referance
