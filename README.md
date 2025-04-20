@@ -3,6 +3,7 @@
 This repository documents the implementation of the paper "Statistical edge-based feature selection for counterfeit coin detection", adapted specifically for authenticating Turkish gold coins (locally called "altın"). The project focuses on detecting counterfeit çeyrek altın (¼-size coins) through advanced image processing and statistical edge feature analysis.
 
 ![Alt text](Images/1.jpg)
+
 Turkish "çeyrek altın" coins - identical design across sizes but varying diameters (14mm-22mm). This project focuses on the 18mm çeyrek altın.
 
 ## 📌 Project Overview
