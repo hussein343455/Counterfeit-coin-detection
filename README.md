@@ -33,6 +33,8 @@ The pipeline involves 8 key steps:
    - Adapted the paper’s method: Rotated the test coin incrementally (1° steps across 360°) and calculated Euclidean distance between the reference and test coin’s edge maps at each angle.
    - The rotation angle with the minimum Euclidean distance (identified from the 360-value vector) was applied to align the test coin with the reference.
    - Result: Perfect edge overlap between reference and aligned test coin (critical for accurate defect detection).
+   - 
+   ![Alt text](Images/Step2.png)
      
 4. **Defect Map Extraction**  
    - Apply **Sobel edge detection** on reference and rotated test images.
