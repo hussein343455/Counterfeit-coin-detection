@@ -33,7 +33,7 @@ The pipeline involves 8 key steps:
    - Adapted the paper’s method: Rotated the test coin incrementally (1° steps across 360°) and calculated Euclidean distance between the reference and test coin’s edge maps at each angle.
    - The rotation angle with the minimum Euclidean distance (identified from the 360-value vector) was applied to align the test coin with the reference.
    - Result: Perfect edge overlap between reference and aligned test coin (critical for accurate defect detection).
-   - 
+   
    ![Alt text](Images/Step2.png)
      
 4. **Defect Map Extraction**  
@@ -61,12 +61,12 @@ The pipeline involves 8 key steps:
    **Data Pipeline**:  
       - **Dataframe A**: 52,584 rows × 14 columns.  
       - **Dataframe B**: 26,292 rows × 15 columns (Same data as A, optimized order to reduce computational load).
-   **Example Workflow in case 6 reference coin are being used**:  
+   **Example Workflow if 6 reference coin are being used**:  
       1. Generate 6 defect maps (1 per reference coin).  
       2. Extract features → 6 dataframes → average into 1.  
       3. Final features retain only persistent edge patterns (suppress transient defects).
 
-   ![Alt text](Images/Step6A.png)    ![Alt text](Images/Step6B.png)
+   ![Alt text](Images/Step6.png)
 
 8. **Dimensionality Reduction**  
    - Applied **Min-Max scaling** to normalize features.  
@@ -81,26 +81,34 @@ The pipeline involves 8 key steps:
   - High-resolution grayscale images (3500x3500 pixels) scanned via 2D scanner.  
 - **Prototype Dataset**:  
   - **Custom-collected dataset**
-  - Captured using a digital microscope croped images are 910x910 pixels
-  - Split into:  
-    - **Reference** (1 image),  
-    - **Real** (2 images),  
-    - **Fake** (4 images).  
+     - Captured using a digital microscope, croped images are (910x910 pixels).
+     - Split into:  
+       - **Reference** (1 Coin),  
+       - **Real** (2 Coin),  
+       - **Fake** (4 Coin).
+    
+  ![Alt text](Images/Data2.png)
+   
+  ![Alt text](Images/Data.png)
 
-   ![Alt text](Images/Data.png) ![Alt text](Images/Data2.png)
+  A digital microscope was used to capture images of the dataset:
+  
+  ![Alt text](Images/bonus.png)
   
 ## 📊 Results
 - The original paper achieved **99.4% accuracy** on the Danish Coin Dataset.  
 - Prototype testing on the custom dataset showed clear distinction between real and fake defect maps:  
   - **Real coins**: Organized, consistent edges.  
-  - **Counterfeit coins**: Chaotic, irregular edges.  
+  - **Counterfeit coins**: Chaotic, irregular edges.
+  - Table below shows the accuracy scores for each classifier:
+  
+  ![Alt text](Images/R.png)
 
 ## 🏁 Conclusion
-This method effectively identifies counterfeit coins by analyzing edge defects, outperforming traditional techniques. While the original paper validated results on the Danish Dataset, this prototype demonstrates feasibility using a smaller custom dataset. Future work includes expanding the custom dataset and testing additional classifiers for robustness.
+This method effectively identifies counterfeit Turkish gold coins by analyzing edge defects, using çeyrek altın as the test case. It outperforms traditional techniques and, while the original paper validated results on the Danish Dataset, this prototype demonstrates feasibility on a smaller custom dataset. The consistent design across coin sizes allows easy adaptation to tam or yarım coins by adjusting ROI scaling.
 
 ## 🔗 References
-- Paper: *"Statistical edge-based feature selection for counterfeit coin detection"*.  
+Primary Paper (Implemented Method):
+[1] [DOI: 10.1007/s11042-020-09447-8] "Statistical edge-based feature selection for counterfeit coin detection"
 
 ---
-
-*Note: Code implementation is not yet available. This repository serves as a documentation hub for the methodology. Contributions or inquiries are welcome!*
