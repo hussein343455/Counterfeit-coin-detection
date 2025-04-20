@@ -41,34 +41,52 @@ The pipeline involves 8 key steps:
    ![Alt text](Images/Step4.png)
 
 5. **ROI Extraction**  
-   - Crop regions of interest (ROI) from defect maps to reduce computational load.
+   - Method: Split the defect map into concentric donut-shaped regions (2D torus) and a central circle.
+   - Parameters: Radius r = 50 for a 500x500 image → (500/2)/50 = 5 regions (4 torus + 1 center circle).
+   - Final ROIs: Vertically split each region into halves → 10 total ROIs.
+   - Impact: Skipping ROI extraction dropped accuracy from 99.7% to ~70% in tests on the custom çeyrek altın dataset.
 
-6. **Feature Extraction**  
-   - Extract edge metrics:  
-     - Horizontal/vertical edge counts (`Nεh`, `Nεv`).  
-     - Edge lengths, positions, directions (horizontal, ±45° diagonals).  
-     - Similarity metrics (SSIM, MSE, SNR).  
-   - Two feature dataframes:  
-     - **Dataframe A**: 52,584 rows × 14 columns.  
-     - **Dataframe B**: Reduced to 26,292 rows × 15 columns.  
+   ![Alt text](Images/Step5.png)
+   
+6. Feature Extraction (Core of the Project)
+   - **Edge Detection**:  
+      - Scanned ROI pixel values row-wise to identify edges (transition from 0 → non-zero → 0).  
+      - Calculated edge count (`Nεh`/`Nεv`), lengths, start/end positions in 3 directions:  
+         1. Horizontal  
+         2. +45° diagonal  
+         3. -45° diagonal  
+      - **Similarity Metrics**: Computed SNR, MSE, SSIM between test/reference ROIs.  
+   **Data Pipeline**:  
+      - **Dataframe A**: 52,584 rows × 14 columns.  
+      - **Dataframe B**: 26,292 rows × 15 columns (Same data as A, optimized order to reduce computational load).
+   **Example Workflow in case 6 reference coin are being used**:  
+      1. Generate 6 defect maps (1 per reference coin).  
+      2. Extract features → 6 dataframes → average into 1.  
+      3. Final features retain only persistent edge patterns (suppress transient defects).
 
-7. **Dimensionality Reduction**  
-   - Apply **PCA** with Min-Max scaling, retaining 97% variance with 6 components.
+   ![Alt text](Images/Step6A.png)    ![Alt text](Images/Step6B.png)
 
-8. **Classification**  
-   - Train/test classifiers on the reduced feature set (specific classifiers not listed in the presentation).
+8. **Dimensionality Reduction**  
+   - Applied **Min-Max scaling** to normalize features.  
+   - Reduced 15 features → **6 PCA components**, preserving 97% variance.  
+   - Resulting shape: **26,292 × 6** (from 26,292 × 15), optimizing computational efficiency.  
+
+9. **Classification**  
+   Classifiers trained on the reduced feature set are presented in the results section.
 
 ## 📂 Dataset
 - **Original Paper Dataset**: Danish Coin Dataset (4 subsets, 2,264 images each).  
   - High-resolution grayscale images (3500x3500 pixels) scanned via 2D scanner.  
 - **Prototype Dataset**:  
-  - **Custom-collected dataset** (due to unavailability of the Danish Dataset).  
-  - Captured using a digital microscope.  
+  - **Custom-collected dataset**
+  - Captured using a digital microscope croped images are 910x910 pixels
   - Split into:  
     - **Reference** (1 image),  
     - **Real** (2 images),  
     - **Fake** (4 images).  
 
+   ![Alt text](Images/Data.png) ![Alt text](Images/Data2.png)
+  
 ## 📊 Results
 - The original paper achieved **99.4% accuracy** on the Danish Coin Dataset.  
 - Prototype testing on the custom dataset showed clear distinction between real and fake defect maps:  
